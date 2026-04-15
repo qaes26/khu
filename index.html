@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عيد ميلاد سعيد أمي خولة</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti for Birthday effect -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        tajawal: ['Tajawal', 'sans-serif'],
+                        ruqaa: ['"Aref Ruqaa"', 'serif'],
+                    },
+                    colors: {
+                        champagne: {
+                            100: '#FDF8F5',
+                            200: '#F5E6DA',
+                            500: '#D4AF37', /* Gold */
+                            600: '#C5A028',
+                        },
+                        rose: {
+                            400: '#FB7185',
+                            500: '#F43F5E',
+                            800: '#9F1239',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #FDF8F5 0%, #FCE7F3 50%, #F5E6DA 100%);
+            overflow-x: hidden;
+            color: #4A4A4A;
+        }
+
+        .font-ruqaa {
+            font-family: '"Aref Ruqaa"', serif;
+        }
+
+        /* Hero Animation */
+        @keyframes floatBalloons {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+        .animate-balloon {
+            animation: floatBalloons 4s ease-in-out infinite;
+        }
+
+        /* Play Button Glow */
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6); }
+            70% { box-shadow: 0 0 0 25px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+        .btn-play-glow {
+            animation: pulse-gold 2s infinite;
+            background: linear-gradient(45deg, #D4AF37, #F43F5E);
+        }
+
+        /* Glassmorphism Cards */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Scroll Reveal Settings */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Decorative Line */
+        .deco-line {
+            height: 2px;
+            background: linear-gradient(to right, transparent, #D4AF37, transparent);
+            margin: 2rem auto;
+            width: 60%;
+        }
+        
+        .sparkle-icon {
+            animation: twinkle 1.5s infinite alternate;
+        }
+        @keyframes twinkle {
+            from { opacity: 0.5; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-rose-300 selection:text-white">
+
+    <!-- Audio Element -->
+    <audio id="bg-audio" loop>
+        <source src="http://googleusercontent.com/file_content/0" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Background Ornaments -->
+    <div class="fixed top-10 left-10 text-champagne-500 opacity-20 text-6xl animate-balloon z-0 pointer-events-none"><i class="fa-solid fa-cake-candles"></i></div>
+    <div class="fixed bottom-20 right-10 text-rose-400 opacity-20 text-6xl animate-balloon z-0 pointer-events-none" style="animation-delay: 1s;"><i class="fa-solid fa-gift"></i></div>
+    <div class="fixed top-40 right-20 text-champagne-500 opacity-20 text-5xl animate-balloon z-0 pointer-events-none" style="animation-delay: 2s;"><i class="fa-solid fa-star"></i></div>
+
+    <main class="relative z-10 container mx-auto px-4 py-16 flex flex-col items-center">
+        
+        <!-- Hero Section -->
+        <section class="min-h-[85vh] flex flex-col justify-center items-center text-center w-full reveal active">
+            <div class="mb-6 relative">
+                <i class="fa-solid fa-crown text-6xl text-champagne-500 mb-2 drop-shadow-md"></i>
+                <i class="fa-solid fa-sparkles absolute -top-2 -right-4 text-2xl text-rose-400 sparkle-icon"></i>
+            </div>
+            
+            <h2 class="text-2xl md:text-3xl text-rose-500 font-bold mb-4 tracking-wider">اليوم ليس كأي يوم..</h2>
+            <h1 class="font-ruqaa text-6xl md:text-8xl text-rose-800 mb-6 drop-shadow-lg leading-tight">
+                عيد ميلاد سعيد<br>يا أمي خولة
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-gray-700 font-medium max-w-2xl leading-relaxed mb-12">
+                كل عام وأنتِ النور الذي يضيء حياتنا، والقلب الذي يجمعنا، وأحلى ملاك في دنيتي.
+            </p>
+
+            <!-- Interactive Audio Player -->
+            <div class="glass-panel p-6 rounded-3xl flex flex-col items-center w-full max-w-sm mt-4 relative overflow-hidden group hover:shadow-2xl transition-all duration-500">
+                <div class="absolute inset-0 bg-white/40 group-hover:bg-white/60 transition-colors z-0"></div>
+                <h3 class="text-lg font-bold text-gray-800 mb-4 z-10 flex items-center gap-2">
+                    <i class="fa-solid fa-music text-champagne-500"></i> هديتي الصوتية لكِ
+                </h3>
+                <button id="play-btn" class="btn-play-glow text-white rounded-full w-24 h-24 flex items-center justify-center text-4xl z-10 transition-transform transform hover:scale-110">
+                    <i id="play-icon" class="fa-solid fa-play ml-2"></i>
+                </button>
+                <p id="audio-text" class="mt-4 text-sm font-semibold text-rose-600 z-10">اضغطي هنا للاحتفال</p>
+            </div>
+        </section>
+
+        <!-- Birthday Message Sections (Scroll Reveal) -->
+        <div class="w-full max-w-4xl mx-auto space-y-24 mt-10 pb-20">
+            
+            <!-- Message 1 -->
+            <section class="reveal flex flex-col md:flex-row items-center gap-8 glass-panel p-8 md:p-12 rounded-[2rem]">
+                <div class="md:w-1/3 flex justify-center">
+                    <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-champagne-500 shadow-xl relative">
+                        <img src="https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?auto=format&fit=crop&w=500&q=80" alt="كعكة عيد ميلاد" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="md:w-2/3 text-center md:text-right">
+                    <h3 class="font-ruqaa text-4xl text-rose-600 mb-4">في مثل هذا اليوم..</h3>
+                    <p class="text-xl leading-loose text-gray-700 font-medium">
+                        أشرقت الأرض بنور ميلادك. أنتِ لستِ فقط أماً، بل أنتِ الحياة، الملاذ، والجنة التي أمشي عليها. كل شمعة نطفئها اليوم هي دعوة لرب السماء أن يحفظكِ لنا ويطيل في عمرك، يا سيدة قلبي وأميرته.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Message 2 -->
+            <section class="reveal flex flex-col md:flex-row-reverse items-center gap-8 glass-panel p-8 md:p-12 rounded-[2rem]">
+                <div class="md:w-1/3 flex justify-center">
+                    <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-rose-400 shadow-xl relative">
+                        <img src="https://images.unsplash.com/photo-1562690868-60bbe7293e94?auto=format&fit=crop&w=500&q=80" alt="زهور للأم" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <div class="md:w-2/3 text-center md:text-right">
+                    <h3 class="font-ruqaa text-4xl text-champagne-600 mb-4">أنتِ عيدي..</h3>
+                    <p class="text-xl leading-loose text-gray-700 font-medium">
+                        يا من غرستِ في روحي الأمل، وربيتني على الحب والطيبة. عيد ميلادك هو عيد لأيامي كلها. عسى عمرك طويل، وضحكتك ما تفارق وجهك، وعسى ربي يقدرني على رد جزء بسيط من جميلك يا تاج راسي.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Message 3 (Poem/Short Quote) -->
+            <section class="reveal glass-panel p-10 rounded-[2rem] text-center relative overflow-hidden">
+                <i class="fa-solid fa-quote-right text-6xl absolute top-4 right-4 text-champagne-500 opacity-20"></i>
+                <h3 class="font-ruqaa text-3xl md:text-5xl text-rose-800 leading-relaxed relative z-10">
+                    "لو كان بيدي أن أهديكِ عمري لوضعته بين يديكِ.. <br>
+                    كل عام وأنتِ أعظم أم، وأجمل نعمة في حياتي."
+                </h3>
+                <div class="deco-line relative z-10"></div>
+                <div class="text-rose-500 text-2xl animate-bounce mt-4"><i class="fa-solid fa-heart"></i></div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer / Signature -->
+    <footer class="relative z-10 bg-white/80 backdrop-blur-lg border-t border-rose-200 py-12 mt-10">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-xl text-gray-600 mb-2 font-medium">مع كل الحب، مقدم من بنتك:</p>
+            <h2 class="font-ruqaa text-5xl text-rose-600 mb-8 drop-shadow-sm">رهف ❤️</h2>
+            
+            <div class="inline-block border border-champagne-500 rounded-full px-6 py-2 bg-champagne-100 shadow-sm transition hover:bg-champagne-200">
+                <p class="text-sm text-champagne-600 font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-code"></i> من إعداد قيس جازي
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        // 1. Scroll Reveal Logic
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+
+        // 2. Audio and Confetti Logic
+        const audio = document.getElementById('bg-audio');
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const audioText = document.getElementById('audio-text');
+        let isPlaying = false;
+
+        // Custom Confetti Function
+        function fireConfetti() {
+            var count = 200;
+            var defaults = {
+                origin: { y: 0.7 },
+                zIndex: 100,
+                colors: ['#D4AF37', '#F43F5E', '#FB7185', '#ffffff']
+            };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    // Update UI
+                    playIcon.classList.remove('fa-play', 'ml-2');
+                    playIcon.classList.add('fa-pause');
+                    audioText.innerText = "كل عام وأنتِ بخير! 🎉";
+                    playBtn.classList.remove('btn-play-glow');
+                    playBtn.classList.add('bg-rose-500');
+                    isPlaying = true;
+                    
+                    // Fire beautiful confetti
+                    fireConfetti();
+                    
+                    // Optional: Fire confetti continuously every few seconds
+                    window.confettiInterval = setInterval(() => {
+                        confetti({
+                            particleCount: 50,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                            colors: ['#D4AF37', '#F43F5E']
+                        });
+                    }, 3000);
+
+                }).catch(err => {
+                    console.error("Audio playback failed:", err);
+                    alert("يرجى التأكد من أن إعدادات المتصفح تسمح بتشغيل الصوت.");
+                });
+            } else {
+                audio.pause();
+                // Update UI
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play', 'ml-2');
+                audioText.innerText = "اضغطي هنا للاحتفال";
+                playBtn.classList.add('btn-play-glow');
+                playBtn.classList.remove('bg-rose-500');
+                isPlaying = false;
+                
+                // Stop continuous confetti
+                clearInterval(window.confettiInterval);
+            }
+        });
+    </script>
+</body>
+</html>
+
+```
