@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -76,6 +75,7 @@
         .glass-panel {
             background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
@@ -106,14 +106,25 @@
             from { opacity: 0.5; transform: scale(0.8); }
             to { opacity: 1; transform: scale(1.2); }
         }
+
+        /* Custom Notification */
+        #custom-notification {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-rose-300 selection:text-white">
 
-    <!-- Audio Element -->
+    <!-- تم تحديث اسم الملف الصوتي بناءً على الصورة -->
     <audio id="bg-audio" loop>
-        <source src="سلطان العماني _  احلى ملاك(MP3_160K).mp3" type="audio/mpeg">
+        <source src="song.mp3" type="audio/mpeg">
     </audio>
+
+    <!-- Custom Notification -->
+    <div id="custom-notification" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-2xl z-50 flex items-center gap-3 opacity-0 pointer-events-none translate-y-5 w-11/12 max-w-md text-center text-sm md:text-base">
+        <i class="fa-solid fa-circle-info text-champagne-500 text-xl"></i>
+        <span id="notification-text">تأكدي من رفع ملف الأغنية باسم song.mp3 في نفس مسار الموقع على GitHub.</span>
+    </div>
 
     <!-- Floating Background Ornaments -->
     <div class="fixed top-10 left-10 text-champagne-500 opacity-20 text-6xl animate-balloon z-0 pointer-events-none"><i class="fa-solid fa-cake-candles"></i></div>
@@ -144,7 +155,7 @@
                 <h3 class="text-lg font-bold text-gray-800 mb-4 z-10 flex items-center gap-2">
                     <i class="fa-solid fa-music text-champagne-500"></i> هديتي الصوتية لكِ
                 </h3>
-                <button id="play-btn" class="btn-play-glow text-white rounded-full w-24 h-24 flex items-center justify-center text-4xl z-10 transition-transform transform hover:scale-110">
+                <button id="play-btn" class="btn-play-glow text-white rounded-full w-24 h-24 flex items-center justify-center text-4xl z-10 transition-transform transform hover:scale-110 cursor-pointer shadow-lg focus:outline-none">
                     <i id="play-icon" class="fa-solid fa-play ml-2"></i>
                 </button>
                 <p id="audio-text" class="mt-4 text-sm font-semibold text-rose-600 z-10">اضغطي هنا للاحتفال</p>
@@ -235,9 +246,19 @@
         const playBtn = document.getElementById('play-btn');
         const playIcon = document.getElementById('play-icon');
         const audioText = document.getElementById('audio-text');
+        const notification = document.getElementById('custom-notification');
         let isPlaying = false;
 
-        // Custom Confetti Function
+        function showNotification() {
+            notification.classList.remove('opacity-0', 'translate-y-5', 'pointer-events-none');
+            notification.classList.add('opacity-100', 'translate-y-0');
+            
+            setTimeout(() => {
+                notification.classList.remove('opacity-100', 'translate-y-0');
+                notification.classList.add('opacity-0', 'translate-y-5', 'pointer-events-none');
+            }, 6000);
+        }
+
         function fireConfetti() {
             var count = 200;
             var defaults = {
@@ -261,35 +282,35 @@
 
         playBtn.addEventListener('click', () => {
             if (!isPlaying) {
-                audio.play().then(() => {
-                    // Update UI
-                    playIcon.classList.remove('fa-play', 'ml-2');
-                    playIcon.classList.add('fa-pause');
-                    audioText.innerText = "كل عام وأنتِ بخير! 🎉";
-                    playBtn.classList.remove('btn-play-glow');
-                    playBtn.classList.add('bg-rose-500');
-                    isPlaying = true;
-                    
-                    // Fire beautiful confetti
-                    fireConfetti();
-                    
-                    // Optional: Fire confetti continuously every few seconds
-                    window.confettiInterval = setInterval(() => {
-                        confetti({
-                            particleCount: 50,
-                            spread: 70,
-                            origin: { y: 0.6 },
-                            colors: ['#D4AF37', '#F43F5E']
-                        });
-                    }, 3000);
+                // UI Update instantly
+                playIcon.classList.remove('fa-play', 'ml-2');
+                playIcon.classList.add('fa-pause');
+                audioText.innerText = "كل عام وأنتِ بخير! 🎉";
+                playBtn.classList.remove('btn-play-glow');
+                playBtn.classList.add('bg-rose-500');
+                isPlaying = true;
+                
+                // Fire Confetti
+                fireConfetti();
+                
+                window.confettiInterval = setInterval(() => {
+                    confetti({
+                        particleCount: 50,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#D4AF37', '#F43F5E']
+                    });
+                }, 3000);
 
-                }).catch(err => {
-                    console.error("Audio playback failed:", err);
-                    alert("لكي تعمل الأغنية: يرجى تنزيل هذا الموقع (ملف HTML) ووضعه في نفس المجلد بجانب ملف الأغنية على جهازك.");
+                // Play Audio
+                audio.play().catch(err => {
+                    console.warn("Audio file not found or browser blocked playback.", err);
+                    showNotification();
                 });
+
             } else {
+                // Stop UI
                 audio.pause();
-                // Update UI
                 playIcon.classList.remove('fa-pause');
                 playIcon.classList.add('fa-play', 'ml-2');
                 audioText.innerText = "اضغطي هنا للاحتفال";
@@ -297,13 +318,9 @@
                 playBtn.classList.remove('bg-rose-500');
                 isPlaying = false;
                 
-                // Stop continuous confetti
                 clearInterval(window.confettiInterval);
             }
         });
     </script>
 </body>
 </html>
-
-
-```
